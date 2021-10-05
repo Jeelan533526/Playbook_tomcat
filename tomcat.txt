@@ -1,0 +1,32 @@
+---
+- hosts: all
+  become: true
+  tasks:
+  - name: Installing java
+    yum:
+     name: java
+     state: present
+  - name: download tomcat
+    get_url:
+      url: https://downloads.apache.org/tomcat/tomcat-8/v8.5.71/bin/apache-tomcat-8.5.71.tar.gz
+      dest: /opt/
+  - name: untar the file
+    unarchive:
+      src: /opt/apache-tomcat-8.5.71.tar.gz
+      dest: /opt
+      remote_src: true
+  - name: rename the file
+    command: mv /opt/apache-tomcat-8.5.71/ /opt/tomcat
+  - name: Remove file (delete file)
+    ansible.builtin.file:
+      path: /opt/apache-tomcat-8.5.71.tar.gz
+      state: absent
+  - name: Recursively change ownership of a directory
+    ansible.builtin.file:
+      path: /opt/tomcat
+      state: directory
+      recurse: yes
+      owner: ec2-user
+      group: ec2-user
+  - name: start apache
+    shell: nohup /opt/tomcat/bin/startup.sh
