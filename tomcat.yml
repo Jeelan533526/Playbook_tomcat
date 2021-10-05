@@ -1,5 +1,5 @@
 ---
-- hosts: all
+- hosts: 10.0.2.87
   become: true
   tasks:
   - name: Installing java
