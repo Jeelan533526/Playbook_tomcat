@@ -17,6 +17,7 @@
       remote_src: true
   - name: rename the file
     command: mv /opt/apache-tomcat-8.5.71/ /opt/tomcat
+    ignore_errors: yes
   - name: Remove file (delete file)
     ansible.builtin.file:
       path: /opt/apache-tomcat-8.5.71.tar.gz
